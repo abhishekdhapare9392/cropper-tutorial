@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cropper JS</title>
+    <link rel="stylesheet" href="./node_modules/cropperjs/dist/cropper.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div>
+        <img id="image" src="./sample.jpg">
+        <button id="crop">Get Cropped Image</button>
+    </div>
+
+    <script src="./node_modules/cropperjs/dist/cropper.js"></script>
+    <script>
+        // require("./node_modules/cropperjs/dist/cropper.js")
+        const image = document.getElementById('image');
+        let cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        crop(event) {
+            console.log(event.detail.x);
+            console.log(event.detail.y);
+            console.log(event.detail.width);
+            console.log(event.detail.height);
+            console.log(event.detail.rotate);
+            console.log(event.detail.scaleX);
+            console.log(event.detail.scaleY);
+            console.log(event)
+        },
+        });
+        let button = document.getElementById('crop');
+        button.addEventListener('click', function(){
+            let image = cropper.getCroppedCanvas({ width: 620, height: 520 }).toDataURL('image/jpeg').replace("image/png", "application/octet-stream")
+            var link = document.createElement('a');
+            link.addEventListener('click', function () {
+                link.href = image;
+                link.download = "myimage.png";
+            },false);
+
+            link.click();
+        });
+
+    </script>
+</body>
+</html>
